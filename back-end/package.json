@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start-server": "node dist/app.js",
-    "start": "npm-run-all build start-server",
+    "start": "npm-run-all build seed start-server",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "seed": "node dist/seeders/seedUsers.js"
   },
