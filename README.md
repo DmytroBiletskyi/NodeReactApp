@@ -1,4 +1,4 @@
-# ERP Backend and Frontend
+# MyApp Backend and Frontend
 
 ## Getting Started
 
