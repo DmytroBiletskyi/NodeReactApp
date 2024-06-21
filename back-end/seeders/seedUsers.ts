@@ -48,7 +48,7 @@ const seedUsers = async (): Promise<void> => {
       const filePath = path.join(__dirname, '..', '../images/users', fileName);
       fs.writeFileSync(filePath, resizedImageBuffer);
 
-      const photo = `http://localhost:3001/api/uploads/${fileName}`;
+      const photo = `${process.env.API_URL}/api/uploads/${fileName}`;
 
       const user = userRepository.create({
         name,

@@ -122,7 +122,7 @@ export const addUser = async (req: Request, res: Response): Promise<void> => {
 
         fs.writeFileSync(filePath, optimizedImageBuffer);
 
-        const photoUrl = `http://localhost:3001/api/uploads/${fileName}`;
+        const photoUrl = `${process.env.API_URL}/api/uploads/${fileName}`;
 
         const existingUser = await userRepository.findOne({
             where: [
