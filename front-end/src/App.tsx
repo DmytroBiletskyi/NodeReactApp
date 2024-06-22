@@ -5,7 +5,6 @@ import { Container, Typography, Alert, TextField, Box } from '@mui/material';
 import { User, Position } from './types/types';
 import './App.css';
 
-
 const API_URL = process.env.REACT_APP_API_URL;
 
 const App: React.FC = () => {
@@ -33,7 +32,8 @@ const App: React.FC = () => {
 
   const loadUsers = useCallback(async (reset: boolean = false) => {
     try {
-      const response = await fetch(`${API_URL}/users?count=6&page=${currentPage}`, {
+      const page = reset ? 1 : currentPage;
+      const response = await fetch(`${API_URL}/users?count=6&page=${page}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -41,6 +41,7 @@ const App: React.FC = () => {
       const data = await response.json();
       setUsers((prevUsers) => reset ? data.users : [...prevUsers, ...data.users]);
       setTotalPages(data.total_pages);
+      if (reset) setCurrentPage(1); // Reset to page 1 if reset flag is true
     } catch (error) {
       console.error('Error loading users:', error);
     }
@@ -80,16 +81,16 @@ const App: React.FC = () => {
         },
         body: formData,
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to add user');
       }
-  
-      await response.json();
+
+      const newUser = await response.json();
       setSuccess('User added successfully');
       setError('');
-      loadUsers(true);
+      setUsers((prevUsers) => [...prevUsers, newUser]);
     } catch (error) {
       console.log(error);
       setError((error as Error).message);
@@ -102,7 +103,7 @@ const App: React.FC = () => {
   };
 
   const filteredUsers = users.filter(user => 
-    user.name.toLowerCase().includes(searchQuery.toLowerCase())
+    user.name?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
