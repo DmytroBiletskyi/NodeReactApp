@@ -41,7 +41,7 @@ const App: React.FC = () => {
       const data = await response.json();
       setUsers((prevUsers) => reset ? data.users : [...prevUsers, ...data.users]);
       setTotalPages(data.total_pages);
-      if (reset) setCurrentPage(1); // Reset to page 1 if reset flag is true
+      if (reset) setCurrentPage(1);
     } catch (error) {
       console.error('Error loading users:', error);
     }
